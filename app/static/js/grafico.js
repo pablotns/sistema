@@ -1,30 +1,22 @@
-var dom = document.getElementById('chart-torta');
-var myChart = echarts.init(dom, null, {
-  renderer: 'canvas',
-  useDirtyRect: false
-});
-var app = {};
 
-var option;
+// See https://github.com/ecomfe/echarts-stat
+echarts.registerTransform(ecStat.transform.clustering);
 
-option = {
-  xAxis: {
-    type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: [150, 230, 224, 218, 135, 147, 260],
-      type: 'line'
-    }
-  ]
-};
-
-if (option && typeof option === 'object') {
-  myChart.setOption(option);
+const getOptionChart = async () => {
+  try{
+    const response = await fetch("http://127.0.0.1:5000/grafico");
+    return await response.json();
+  } catch(ex){
+      alert(ex);
+  }
 }
 
-window.addEventListener('resize', myChart.resize);
+const initChart = async() => {
+    const myChart = echarts.init(document.getElementById('chart-torta'));
+    myChart.setOption(await getOptionChart());
+    myChart.resize();
+};
+
+window.addEventListener('load',async()=>{
+  await initChart();
+});
