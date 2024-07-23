@@ -1,77 +1,21 @@
-var dom = document.getElementById('chart-burbuja');
-var myChart = echarts.init(dom, null, {
-  renderer: 'canvas',
-  useDirtyRect: false
-});
-var app = {};
+// See https://github.com/ecomfe/echarts-stat
+echarts.registerTransform(ecStat.transform.clustering);
 
-var option;
-
-option = {
-  tooltip: {
-    trigger: 'item'
-  },
-  legend: {
-    top: '5%',
-    left: 'center'
-  },
-  series: [
-    {
-      name: 'Access From',
-      type: 'pie',
-      radius: ['40%', '70%'],
-      avoidLabelOverlap: false,
-      itemStyle: {
-        borderRadius: 10,
-        borderColor: '#fff',
-        borderWidth: 2
-      },
-      label: {
-        show: false,
-        position: 'center'
-      },
-      emphasis: {
-        label: {
-          show: true,
-          fontSize: 40,
-          fontWeight: 'bold'
-        }
-      },
-      labelLine: {
-        show: false
-      },
-      data: [
-        { value: 1048, name: 'PERROS' },
-        { value: 735, name: 'GATOS' },
-        { value: 580, name: 'HAMSTERS' }
-      ]
-    }
-  ]
-};
-
-// Agrega un evento de clic al gráfico
-myChart.on('click', function(params) {
-    // Redirige a diferentes páginas basadas en la categoría clicada
-    var categoryMap = {
-      'PERROS': 'categoria'
-    };
-  
-    var categoryPage = categoryMap[params.name];
-    if (categoryPage) {
-      window.location.href = categoryPage;
-    } else {
-      alert('Página no encontrada para esta categoría.');
-    }
-});
-
-if (option && typeof option === 'object') {
-  myChart.setOption(option);
+const getOptionChart2 = async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:5000/puntos");
+    return await response.json();
+  } catch(ex) {
+    alert(ex);
+  }
 }
 
-window.addEventListener('resize', myChart.resize);
+const initChart2 = async() => {
+  const myChart = echarts.init(document.getElementById('chart-burbuja'));
+  myChart.setOption(await getOptionChart2());
+  myChart.resize();
+};
 
-
-
-
-
-
+window.addEventListener('load', async () => {
+  await initChart2();
+});
