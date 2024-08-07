@@ -13,9 +13,18 @@ const getOptionChart2 = async () => {
 const initChart2 = async() => {
   const myChart = echarts.init(document.getElementById('chart-burbuja'));
   myChart.setOption(await getOptionChart2());
+  myChart.on('click', function(params) {
+    window.open(
+      'https://www.google.com/search?q=' + encodeURIComponent(params.name)
+    );
+  });
+  
   myChart.resize();
 };
+
+
 
 window.addEventListener('load', async () => {
   await initChart2();
 });
+

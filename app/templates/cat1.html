@@ -1,39 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" >
-    <title>Título del Documento</title>
-    <!-- importacion de css -->
-    <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet" type="text/css">
-    <!-- CSS de Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataTable Example</title>
+    <!-- Incluir CSS de DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <body>
-    <h1>Encabezado Principal</h1>
-    <p>Este es un párrafo de texto en el cuerpo del documento.</p>
-    <div class="row">
-        <div class="col-xl-6 col-lg-6">
-          <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">Graficos de Burbuja</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-              <div class="chart-area">
-                <div id="chart-burbuja"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-    <!-- echarts grafico de burbuja -->   
-    <script src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script> 
-    <!-- echarts grafico de burbuja y de torta -->
-    <script src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <h1>Ejemplo de DataTable</h1>
+    
+    <table id="myTable" class="display">
+        <thead>
+            <tr>
+                <th>Columna 1</th>
+                <th>Columna 2</th>
+                <th>Columna 3</th>
+                <th>Columna 4</th>
+                <th>Columna 5</th>
+                <th>Columna 6</th>
+                <th>Columna 7</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- El cuerpo de la tabla se llenará dinámicamente -->
+        </tbody>
+    </table>
 
-    <script src="{{url_for('static',filename='js/burbuja.js')}}"></script>
+    <!-- Incluir jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluir JS de DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
+    <script src="{{url_for('static',filename='js/table.js')}}"></script>
 </body>
 </html>

@@ -4,6 +4,9 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+cluster1=[]
+cluster2=[]
+cluster3=[]
 
 class DataProcessor:
     def __init__(self):
@@ -17,12 +20,15 @@ class DataProcessor:
     def read_csv(self, file_path):
         self.df = pd.read_csv(file_path)
 
+    def get_tabla(self):
+        return self.df
+
     def process_data (self, n_components=2):
         scaler = MinMaxScaler()
         self.df_scaled = pd.DataFrame(scaler.fit_transform(self.df), columns=self.df.columns)
         pca = PCA(n_components=n_components)
         self.pca_result = pca.fit_transform(self.df_scaled)
-
+        
     def process_kmeans(self, n_clusters=3):   
         kmeans = KMeans(n_clusters=n_clusters)
         self.kmeans_result = kmeans.fit(self.pca_result)
@@ -59,6 +65,10 @@ def index():
 @app.route('/categoria')
 def categoria():
     return render_template('cat1.html')
+
+@app.route('/pruebachart')
+def pruebachart():
+    return render_template('charts.html')
 
 
 def get_data():
@@ -126,25 +136,51 @@ def grafico():
     }
     return jsonify(chart)
 
+@app.route('/tabla')
+def tabla():
+    processor = DataProcessor()
+    processor.read_csv("C:/Users/PC/Desktop/encoded_data.csv")
+    dataset = processor.get_tabla()
+    dataset = dataset.values.tolist()
+    return jsonify(dataset)
+
 @app.route('/puntos')
 def puntos():
-    
+    dataxx , cluster1,cluster2,cluster3 = get_data()
+
+    v1 = len(cluster1)
+    v2 = len(cluster2)
+    v3 = len(cluster3)
+
     data = [
-            { 'value': 1048, 'name': 'PERROS' },
-            { 'value': 735, 'name': 'TOS' },
-            { 'value': 580, 'name': 'HAMSTERS' }
+            { 'value': v1, 'name': 'CLUSTER1' },
+            { 'value': v2, 'name': 'CLUSTER2' },
+            { 'value': v3, 'name': 'CLUSTER3' }
         ]
     
     chart = {
+        'tooltip': {
+            'trigger': 'item'
+        },
+        'legend': {
+            'top': '5%',
+            'left': 'center'
+        },
         'series': [
             {
-            'name': 'Access From',
+            'name': 'Result',
             'type': 'pie',
-            'radius': '50%',
+            'radius': ['40%', '70%'],
+            'avoidLabelOverlap': 'false',
+            'padAngle': '5',
+            'itemStyle': {
+                'borderRadius': '10'
+            },
             'data': data
             }
         ]
     }
+    
     return jsonify(chart)
 
 
