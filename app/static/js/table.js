@@ -12,13 +12,13 @@ $(document).ready(async function() {
     $('#myTable').DataTable({
         data: data,
         columns: [
-            { title: "Columna 1" },
-            { title: "Columna 2" },
-            { title: "Columna 3" },
-            { title: "Columna 4" },
-            { title: "Columna 5" },
-            { title: "Columna 6" },
-            { title: "Columna 7" }
+            { title: "ID" },
+            { title: "PROCESADOR" },
+            { title: "PLACA MADRE" },
+            { title: "DISCO" },
+            { title: "RAM" },
+            { title: "CALIFICACION" },
+            { title: "SYSOP" }
         ]
     });
 });

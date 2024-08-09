@@ -14,15 +14,22 @@ const initChart2 = async() => {
   const myChart = echarts.init(document.getElementById('chart-burbuja'));
   myChart.setOption(await getOptionChart2());
   myChart.on('click', function(params) {
-    window.open(
-      'https://www.google.com/search?q=' + encodeURIComponent(params.name)
-    );
-  });
+    var categoryMap = {
+      'CLUSTER1': 'categoria1',
+      'CLUSTER2': 'categoria2',
+      'CLUSTER3': 'categoria3'
+    };
+  
+    var categoryPage = categoryMap[params.name];
+    if (categoryPage) {
+      window.location.href = categoryPage;
+    } else {
+      alert('Página no encontrada para esta categoría.');
+    }
+   });
   
   myChart.resize();
 };
-
-
 
 window.addEventListener('load', async () => {
   await initChart2();
