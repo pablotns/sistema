@@ -68,7 +68,20 @@ def categoria1():
 
 @app.route('/categoria2')
 def categoria2():
-    return render_template('cat1.html')
+    datos = {
+        'titulo': 'Página de gráficos',
+        'descripcion': 'Esta página muestra gráficos interactivos.',
+        'grafico1': 'Gráfico de Dispersión',
+        'grafico2': 'Gráfico de Torta',
+        'valores': [
+            {'id': 1, 'nombre': 'Item 1', 'valor': 10},
+            {'id': 2, 'nombre': 'Item 2', 'valor': 20},
+            {'id': 3, 'nombre': 'Item 3', 'valor': 30},
+            {'id': 4, 'nombre': 'Item 4', 'valor': 40},
+            {'id': 5, 'nombre': 'Item 5', 'valor': 50}
+        ]
+    }
+    return render_template('cat2.html', datos=datos)
 
 @app.route('/categoria3')
 def categoria3():
