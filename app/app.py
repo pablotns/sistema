@@ -4,56 +4,6 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
-cluster1=[]
-cluster2=[]
-cluster3=[]
-
-class DataProcessor:
-    def __init__(self):
-        self.df = None
-        self.df_scaled = None
-        self.pca_result = None
-        self.kmeans_result = None
-        self.centroids = None
-        self.labels = None
-
-    def read_csv(self, file_path):
-        self.df = pd.read_csv(file_path)
-
-    def get_tabla(self):
-        return self.df
-
-    def process_data (self, n_components=2):
-        scaler = MinMaxScaler()
-        self.df_scaled = pd.DataFrame(scaler.fit_transform(self.df), columns=self.df.columns)
-        pca = PCA(n_components=n_components)
-        self.pca_result = pca.fit_transform(self.df_scaled)
-        
-    def process_kmeans(self, n_clusters=3):   
-        kmeans = KMeans(n_clusters=n_clusters)
-        self.kmeans_result = kmeans.fit(self.pca_result)
-        self.centroids = kmeans.cluster_centers_
-        self.labels = kmeans.labels_
-        return self.centroids.tolist()
-    
-    def get_transform (self):
-        return self.pca_result.tolist()
-    
-    def get_cluster(self):
-        data = self.pca_result.tolist()
-        aux = self.labels.tolist()
-        cluster1=[]
-        cluster2=[]
-        cluster3=[]
-        for n, a in zip(data, aux):
-            if a == 0:
-                cluster1.append(n)
-            elif a == 1:
-                cluster2.append(n)
-            else:
-                cluster3.append(n)
-
-        return cluster1,cluster2,cluster3
             
         
 app = Flask (__name__)
@@ -104,17 +54,6 @@ def categoria3():
 def pruebachart():
     return render_template('charts.html')
 
-
-def get_data():
-    
-    processor = DataProcessor()
-    processor.read_csv("C:/Users/PC/Desktop/encoded_data.csv")
-    processor.process_data()
-    # Cambio por cluster 
-    #dataset = processor.get_transform() 
-    centroid = processor.process_kmeans()
-    cluster1, cluster2, cluster3 = processor.get_cluster()
-    return centroid, cluster1, cluster2, cluster3
 
 @app.route('/grafico')
 def grafico():
